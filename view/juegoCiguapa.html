@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Juego de la Ciguapa</title>
+    <link rel="stylesheet" href="../css/styleJuegoCiguapa.css">
+</head>
+<body>
+    <div class="principal">
+        <div class="container">
+            <canvas id="JuegoCiguapa" width="850" height="480"></canvas>
+        </div>
+
+        <div class="menu">
+            <a href="./prendas.html"></a>
+            <a href="../index.html"></a>
+        </div>
+        <script type="module" src="../js/scriptJuegoCiguapa.js"></script>     
+    </div>
+    <div class="musica">
+        <audio autoplay="true" controls loop>
+            <source src="../music/songJuego.mp3" type="audio/wav">
+            Tu navegador no soporta el elemento de audio.
+        </audio>
+    </div>
+    <audio id="gameOverSound" src="../music/songPerder.mp3"></audio> 
+    <audio id="gameWinSound" src="../music/songGanar.mp3"></audio> 
+</body>
+</html>

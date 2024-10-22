@@ -1,0 +1,158 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.principal {
+    width: 100vw;
+    height: 100vh;
+    background: #212034;
+    position: relative;
+    
+    display: flex;
+    flex-direction: column; /* Alinea los elementos como columnas */
+    align-items: center; /* Centra horizontalmente los elementos */
+    justify-content: center;
+}
+
+.cuerpo {
+    width: 100%;
+    height: 95%;
+    
+    background: #212034;
+    position: relative; /* Asegura que los botones estén posicionados relativamente a este contenedor */
+    display: flex; /* Usamos flexbox para alinear los elementos */
+}
+
+.cuerpo a{
+    /* border: 5px solid blue; */
+    display: block;
+    width: 15%;
+    height: 100%;
+}
+
+.cuerpo section{
+    /* border: 5px solid blue; */
+    width: 70%;
+    height: 100%;
+    
+    background: url('../img/menuPrincipal/fondoMenuPrincipal.PNG');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+
+    display: flex; /* Usamos flexbox para alinear los elementos */
+
+}
+
+.cuerpo section .imagen{
+    /* border: 5px solid blue; */
+    width: 50%;
+    height: 100%;
+    
+}
+
+.cuerpo section .imgTexto{
+    width: 50%;
+    height: 100%;
+     
+}
+
+
+.principal aside{
+    position: absolute;
+    border-radius: 50%;
+    width: 6.6%;
+    height: 14%;    
+    top: 30px;
+    right: 30px;
+    opacity: .1;  
+}
+
+.principal aside a{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    font-size: large;
+    text-transform: uppercase;
+    text-decoration: none; /* Quita el subrayado */   
+    color: aliceblue;
+    background-color: rgb(13, 107, 195);
+    border-radius: 50%;
+    opacity: .1; 
+    overflow: hidden;
+    transition: all 0.5s; /* Añadimos transición para el 
+    aumento de tamaño */
+    text-align: center;
+}
+
+.principal aside a:active{
+    text-decoration: none; /* Quita el subrayado */   
+    color: aliceblue;  
+}
+
+.principal aside, aside a:hover{
+    text-decoration: none; /* Quita el subrayado */   
+    opacity: 1;
+    letter-spacing: 2px; 
+    transform: scale(1.1); 
+}
+
+
+.prev-btn, .next-btn {
+    width: 60px; /* Ancho del botón */
+    height: 60px; /* Altura del botón */
+    background-color: transparent; /* Color de fondo transparente */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    transition: all 0.5s;
+}
+
+.prev-btn {
+    clip-path: polygon(0% 50%, 100% 0%, 100% 100%); /* Triángulo apuntando a la izquierda */
+    background-image: url('../img/intro/texturas/texturas03.png'); /* Color de fondo del botón */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin-left: 5px; /* Margen izquierdo para separar del elemento anterior */
+    margin-right: 10px;
+}
+
+.next-btn {
+    clip-path: polygon(0% 0%, 100% 50%, 0% 100%); /* Triángulo apuntando a la derecha */
+    background-image: url('../img/intro/texturas/texturas02.png'); /* Color de fondo del botón */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin-right: 5px; /* Margen derecho para separar del elemento siguiente */
+    margin-left: 10px;
+}
+
+.prev-btn:hover, .next-btn:hover{
+    transform: scale(.9); 
+}
+
+.musica{
+    width: 180px;
+    height: 40px;
+    position: fixed;
+    /* border: 5px solid black; */
+    left: 5px;
+    bottom: 10px;
+    
+    opacity: 0;
+    transition: all 0.5s; 
+}
+.musica audio{
+    width: 100%;
+    height: 100%;    
+}
+
+.musica:hover{
+    opacity: .8;
+}

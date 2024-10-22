@@ -1,0 +1,150 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+
+.principal {
+    width: 100%;
+    background: #212034;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+}
+
+.principal h1{
+    width: 100%;
+    text-align: center;
+    font-size: 80px;
+    color: azure;
+    letter-spacing: 4px;
+    font-weight: lighter;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+}
+
+
+.gallery {
+    width: 96%;
+    margin-top: 10px;
+    margin-bottom: 50px;
+    
+
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center; 
+    justify-content: center;
+    background: #212034;
+}
+
+.gallery a {
+    width: 200px;
+    height: 200px;
+    background: #323058;
+    display: block;
+    margin: 10px;
+    /* border: 2px solid #d7e098; */
+}
+
+.gallery img {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease-in-out;
+    border: 2px solid #d3d1f1;
+    background-color: #17153b;
+}
+
+.gallery a:nth-child(even), .gallery a:nth-child(odd){
+    border-radius: 50px 0 50px 0;   
+}
+
+.gallery img:nth-child(odd), .gallery img:nth-child(even){
+    border-radius: 0 50px 0 50px;  
+}
+.gallery a:hover img {
+    transform: scale(1.1);
+}
+
+.overlay {
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s, visibility 0s 0.5s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay:target {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s;
+}
+
+.overlay img {
+    max-width: 80%;
+    max-height: 80%;
+}
+
+.menu{
+    width: 30%;
+    height: 90px;
+    position: fixed;
+    /* border: 5px solid black; */
+    right: 5px;
+    bottom: 25px;   
+}
+
+.menu a{
+    display: block;
+    width: 100%;
+    height: 100%;
+    background:rgb(2, 55, 75);
+    transition: all 0.5s;
+    border-radius: 20px 0 0 20px; 
+    opacity: 0.2;
+
+    background-image: url('../img/galeria/salirGaleria.png'); /* Color de fondo del botón */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.menu a:hover{
+    opacity: 1;
+    transform: scaleX(1.5);
+    border: 5px solid sandybrown;
+    
+}
+
+.musica{
+    width: 280px;
+    height: 50px;
+    position: fixed;
+    /* border: 5px solid black; */
+    left: 10px;
+    bottom: 15px;
+    
+    opacity: 0;
+    transition: all 0.5s; 
+}
+.musica audio{
+    width: 100%;
+    height: 100%;    
+}
+
+.musica:hover{
+    opacity: .8;
+}

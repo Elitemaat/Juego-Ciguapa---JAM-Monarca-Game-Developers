@@ -1,0 +1,96 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.principal {
+    width: 100vw;
+    height: 100vh;
+    background: #212034;
+    position: relative;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    min-width:  90%;
+    min-height: 90%;
+    /* border: 2px solid black; */
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+canvas {
+    width: 850px;
+    height: 480px;
+
+    border: 5px solid black;
+    background-color: transparent; /* Fondo transparente */
+}
+
+.menu{
+    width: 850px;
+    height: 70px;
+    position: absolute;
+    /* border: 5px solid black; */
+
+    display: flex;
+
+    bottom: 60px;
+}
+
+.menu a{
+   display: block;
+   width: 30%;
+   margin:0 10%;
+   height: 100%;
+   /* border: 5px solid black; */
+   transition: all 0.5s;
+   opacity: 0.05;
+}
+
+.menu a:nth-child(1){
+    background-image: url('../img/juego/botones/b_menu.PNG'); /* Color de fondo del botón */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.menu a:nth-child(2){
+    background-image: url('../img/juego/botones/b_salir.PNG'); /* Color de fondo del botón */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.menu a:hover{
+    opacity: 1;
+    transform: scale(1.4); 
+}
+
+.musica{
+    width: 280px;
+    height: 50px;
+    position: fixed;
+    /* border: 5px solid black; */
+    right: -100px;
+    bottom: 140px;
+    transform: rotate(-90deg);
+    
+    opacity: 0;
+    transition: all 0.5s; 
+}
+.musica audio{
+    width: 100%;
+    height: 100%;    
+}
+
+.musica:hover{
+    opacity: .8;
+}

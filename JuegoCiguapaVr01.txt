@@ -1,0 +1,312 @@
+//Nombre de Script: scriptJuegoCiguapa.js
+
+import Fondo from './fondo.js';
+import Personaje from './personaje.js';
+import Ciguapa from './ciguapa.js';
+
+const fondoImages = [
+    '../img/fondos/fondoBosque/fondoBosque01.PNG',
+    '../img/fondos/fondoBosque/fondoBosque02.PNG',
+    '../img/fondos/fondoBosque/fondoBosque03.PNG',
+    '../img/fondos/fondoBosque/fondoBosque04.PNG'
+];
+
+const fondoSpeed = 1; // Velocidad de desplazamiento del fondo
+
+let fondo;
+let animationId;
+
+// Variable para controlar si el juego está pausado o no
+let juegoPausado = false;
+
+// Cargar las imágenes del fondo
+Promise.all(fondoImages.map(src => new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+})))
+.then(images => {
+    // Crear instancia de Fondo con las imágenes del fondo y la velocidad definida
+    fondo = new Fondo(images, fondoSpeed);
+
+    // Cargar imágenes del personaje "Man"
+    const manImages = [
+        '../img/hombres/hombreA/correr/MenRun01.PNG',
+        '../img/hombres/hombreA/correr/MenRun02.PNG',
+        '../img/hombres/hombreA/correr/MenRun03.PNG',
+    ];
+
+    const manSpeed = 1; // Velocidad de desplazamiento del personaje
+
+    Promise.all(manImages.map(src => new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = src;
+    })))
+    .then(manImages => {
+        // Crear instancia del personaje "Man" con las imágenes cargadas, velocidad y posición definidas
+        const man = new Personaje(manImages, manSpeed, 700, 295, 130, 130); // Ajusta la velocidad y posición según tus necesidades
+
+        // Establecer el personaje en el fondo
+        fondo.setMan(man);
+
+        // Cargar imágenes de la Ciguapa
+        const ciguapaImages = [
+            '../img/ciguapa/correr/ciguapaRun01.PNG',
+            '../img/ciguapa/correr/ciguapaRun02.PNG',
+            '../img/ciguapa/correr/ciguapaRun03.PNG',
+            '../img/ciguapa/quieta/ciguapaQuieta01.PNG',
+            '../img/ciguapa/salto/ciguapaSalto01.PNG',
+        ];
+
+        const ciguapaSpeed = 4; // Velocidad de desplazamiento de la Ciguapa
+
+        Promise.all(ciguapaImages.map(src => new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = reject;
+            img.src = src;
+        })))
+        .then(ciguapaImages => {
+            const ciguapa = new Ciguapa(ciguapaImages, 350, 295, 130, 130); // Ajusta la posición según tus necesidades
+
+            // Establecer la Ciguapa en el fondo
+            fondo.setCiguapa(ciguapa);
+
+            // Comenzar la animación del fondo con el personaje y la Ciguapa
+            animate();
+            // Iniciar la animación al cargar las imágenes
+            animate();
+        })
+        .catch(error => {
+            console.error("Error cargando las imágenes de la Ciguapa:", error);
+        });
+    })
+    .catch(error => {
+        console.error("Error cargando las imágenes del personaje:", error);
+    });
+})
+.catch(error => {
+    console.error("Error cargando las imágenes del fondo:", error);
+});
+
+// Función para animar el fondo con el personaje y la Ciguapa
+function animate() {
+    fondo.ctx.clearRect(0, 0, fondo.canvas.width, fondo.canvas.height); // Limpiar el lienzo antes de dibujar
+    fondo.update(); // Actualizar la posición y la animación del fondo y del personaje
+    fondo.draw(); // Dibujar el fondo y el personaje en el lienzo
+
+    // Si el juego no está pausado, seguir animando
+    if (!juegoPausado) {
+        animationId = requestAnimationFrame(animate); // Llamar a la función de animación de nuevo para el siguiente fotograma
+    }
+}
+
+// Manejamos el evento de presionar teclas
+document.addEventListener('keydown', event => {
+    // Si se presiona la tecla 'a' o 'Espacio'
+    if (event.key === 'a' || event.key === ' ') {
+        // Verificar que la instancia de fondo y la ciguapa estén definidas
+        if (fondo && fondo.ciguapa) {
+            // Movemos la ciguapa hacia la derecha
+            fondo.ciguapa.moveRight();
+        }
+    }
+});
+
+// Manejamos el evento de presionar teclas
+document.addEventListener('keydown', event => {
+    // Si se presiona la tecla 'r'
+    if (event.key === 'r') {
+        // Cambiar el estado de pausa del juego
+        juegoPausado = !juegoPausado;
+
+        // Si el juego está pausado, detener la animación
+        if (juegoPausado) {
+            // Detener la animación del fondo
+            cancelAnimationFrame(animationId);
+        } else {
+            // Si el juego se reanuda, volver a iniciar la animación
+            animate();
+        }
+    }
+});
+
+
+//Nombre de Script: ciguapa.js
+
+export default class Ciguapa {
+    constructor(imagCiguapa, x, y, width, height) {
+        this.imagCiguapa = imagCiguapa; // Array de imágenes para la animación de correr
+        this.speed = 0;  // Velocidad de movimiento de la ciguapa
+        this.x = x;  // Posición en el eje x de la ciguapa
+        this.y = y;  // Posición en el eje y de la ciguapa
+        this.width = width;    // Ancho de la ciguapa
+        this.height = height;  // Altura de la ciguapa
+        this.frameIndex = 0;   // Índice del frame actual de la animación
+        this.tickCount = 0; // Contador para controlar la velocidad de la animación
+        this.ticksPerFrame = 10; // Velocidad de la animación (menos es más rápido)
+
+        // Actualiza ticksPerFrame basado en el número de imágenes en imagCiguapa
+        this.updateTicksPerFrame();
+    }
+
+    // Método para calcular y ajustar la velocidad de la animación
+    updateTicksPerFrame() {
+        // El número de imágenes en imagCiguapa determina la cantidad de frames
+        this.ticksPerFrame = Math.max(1, Math.floor(20 / this.speed)); // Mayor velocidad -> menor ticksPerFrame
+    }
+
+    update() {
+        this.tickCount++; // Incrementa el contador en cada ciclo de animación
+    
+        // Controla el cambio de frame cuando el contador alcanza el límite
+        if (this.tickCount > this.ticksPerFrame) {
+            this.tickCount = 0; // Reinicia el contador
+            // Incrementa el índice del frame
+            this.frameIndex = (this.frameIndex + 1) % (3);
+        }
+
+        this.x -= 1;
+        if(this.getSpeed()>=1){
+            this.setSpeed(this.getSpeed()-1);       
+        }
+    }
+
+    draw() {
+        // Dibujar la ciguapa
+        console.log(this.frameIndex);
+
+        if(this.getSpeed()==0){
+            this.ctx.drawImage(this.imagCiguapa[3], this.x, this.y, this.width, this.height);
+        }
+        else{
+            this.ctx.drawImage(this.imagCiguapa[this.frameIndex], this.x, this.y, this.width, this.height);
+        }
+    }
+
+    // Método para obtener la velocidad de la ciguapa
+    getSpeed() {
+        return this.speed;
+    }
+
+    // Método para establecer la velocidad de la ciguapa
+    setSpeed(newSpeed) {
+        this.speed = newSpeed;
+        this.updateTicksPerFrame(); // Actualizar ticksPerFrame cuando cambie la velocidad
+    }
+
+    // Método para obtener la posición en el eje x de la ciguapa
+    getX() {
+        return this.x;
+    }
+
+    // Método para establecer la posición en el eje x de la ciguapa
+    setX(newX) {
+        this.x = newX;
+    }
+
+    // Método para obtener la posición en el eje y de la ciguapa
+    getY() {
+        return this.y;
+    }
+
+    // Método para establecer la posición en el eje y de la ciguapa
+    setY(newY) {
+        this.y = newY;
+    }
+
+    setContext(ctx) {
+        this.ctx = ctx;
+    }
+
+    // Método para mover la ciguapa hacia la derecha
+    moveRight() {
+        // Mover la ciguapa hacia la derecha
+        this.setX(this.getX() + 25); // Ajusta el valor 10 según tu necesidad de velocidad
+        this.setSpeed(this.getSpeed() + 10);
+    }
+}
+
+//Nombre de Script: personaje.js
+
+export default class Personaje {
+    constructor(images, speed, x, y, width, height) {
+        this.images = images;  // Array de imágenes que forman la animación del personaje
+        this.speed = speed;  // Velocidad de movimiento del personaje
+        this.x = x;  // Posición en el eje x del personaje
+        this.y = y;  // Posición en el eje y del personaje
+        this.width = width;    // Ancho del personaje
+        this.height = height;  // Altura del personaje
+        this.frameIndex = 0;   // Índice del frame actual de la animación del personaje
+        this.tickCount = 0; // Contador para controlar la velocidad de la animación
+        this.ticksPerFrame = 10; // Velocidad de la animación (menos es más rápido)
+
+        // Actualiza ticksPerFrame basado en la velocidad inicial
+        this.updateTicksPerFrame();
+    }
+
+    // Método para calcular y ajustar la velocidad de la animación
+    updateTicksPerFrame() {
+        // La velocidad de la animación depende de la velocidad del personaje.
+        // Cuanto más rápido sea el personaje, más rápido debería ser la animación,
+        // por lo tanto, reducimos ticksPerFrame con una relación inversa.
+        this.ticksPerFrame = Math.max(1, Math.floor(20 / this.speed)); // Mayor velocidad -> menor ticksPerFrame
+    }
+
+    update() {
+        this.tickCount++; // Incrementa el contador en cada ciclo de animación
+
+        // Controla el cambio de frame cuando el contador alcanza el límite
+        if (this.tickCount > this.ticksPerFrame) {
+            this.tickCount = 0; // Reinicia el contador
+            // Actualiza el índice del frame para la animación
+            this.frameIndex = (this.frameIndex + 1) % this.images.length;
+        }
+
+        // Genera un número aleatorio entre -2 y 2 para incrementar, disminuir o mantener la posición en x
+        const randomX = Math.floor(Math.random() * 5) - 2;
+        // Añade el valor aleatorio a la posición actual en x del personaje
+        this.x += randomX;
+
+        // Ajusta la velocidad del personaje según el valor de randomX
+        if (randomX > 0) {
+            // Incrementa la velocidad cuando randomX sea positivo
+            this.speed += 1; // Velocidad aumentada
+        } else if (randomX < 0) {
+            // Disminuye la velocidad cuando randomX sea negativo
+            this.speed -= 1; // Velocidad disminuida
+        } else {
+            // Mantén la velocidad normal cuando randomX sea igual a 0
+             // Velocidad normal
+        } 
+
+        // Asegúrate de que la posición en x del personaje permanezca dentro del rango [550, 750]
+        if (this.x < 550) {
+            this.x = 550;
+        } else if (this.x > 750) {
+            this.x = 750;
+        }
+    }
+
+    draw() {
+        //console.log(this.frameIndex);
+        this.ctx.drawImage(this.images[this.frameIndex], this.x, this.y, this.width, this.height);
+    }
+
+    setContext(ctx) {
+        this.ctx = ctx;
+    }
+
+    setSpeed(newSpeed) {
+        this.speed = newSpeed;
+        this.speedNormal= newSpeed;
+    }
+
+    getSpeed() {
+        return this.speed;
+    }
+}
+

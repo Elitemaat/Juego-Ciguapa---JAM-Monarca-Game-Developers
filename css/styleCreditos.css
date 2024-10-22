@@ -1,0 +1,107 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+
+.principal {
+    width: 100vw;
+    height: 100vh;
+    background: #212034;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+}
+
+.principal .container{
+    width: 99%;
+    height: 99%;
+    background: url('../img/creditos/fondosCreditos.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border-radius: 2%;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center; 
+    justify-content: space-around; /* Espacio entre las tarjetas */
+}
+
+.tarjeta{
+    width: 20%;
+    height: 70%;
+   
+    /* border: 5px solid rgb(19, 17, 29); */
+    border-radius: 4%;
+    transition: all 0.5s;
+}
+
+.tarjeta img{
+    width: 100%;
+    height: 100%;
+    
+}
+
+.tarjeta:hover{
+    transform: scale(1.3);
+}
+
+.menu{
+    width: 35%;
+    height: 80px;
+    position: fixed;
+    /* border: 5px solid black; */
+    left: 0;
+    right: 0;
+    margin: 0 auto; /* Centrar horizontalmente */
+    bottom: 5px;   
+}
+
+.menu a{
+   display: block;
+   width: 100%;
+   height: 100%;
+   background:rgb(7, 91, 122);
+   transition: all 0.5s;
+   border-radius: 20px 20px 0 0; 
+   opacity: 0.05;
+
+   background-image: url('../img/creditos/salirCreditos.png'); /* Color de fondo del botón */
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+.menu a:hover{
+    opacity: 1;
+    transform: scaleY(1.3) scaleX(.9);
+    background-size: contain;
+    background-position: center;
+    border: 5px solid rgba(46, 179, 215, 0.858);
+    
+}
+
+.musica{
+    width: 280px;
+    height: 50px;
+    position: fixed;
+    /* border: 5px solid black; */
+    left: 10px;
+    bottom: 15px;
+    
+    opacity: 0;
+    transition: all 0.5s; 
+}
+.musica audio{
+    width: 100%;
+    height: 100%;    
+}
+
+.musica:hover{
+    opacity: .8;
+}
